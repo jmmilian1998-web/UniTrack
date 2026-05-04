@@ -1,1 +1,19 @@
-Archivo para subir a GitHub
+# UniTrack - API Backend ⚙️
+
+Este repositorio contiene la lógica del servidor y el manejo de estructuras de datos para el proyecto UniTrack. Desarrollado para el curso de Estructura de Datos de la **Universidad Regional de Guatemala**.
+
+## 🛠️ Tecnologías
+* **Runtime**: Node.js
+* **Framework**: Express.js
+* **Estructuras de Datos**: 
+  * Manejo de **Lista Simple** para el control de Estudiantes.
+  * Manejo de **Lista Doble** para el Historial Académico.
+
+## 📌 Endpoints Principales
+* `GET /api/estudiantes`: Obtiene la lista simple de estudiantes.
+* `POST /api/estudiantes`: Registra un nuevo estudiante en la lista.
+* `GET /api/historial/:carnet`: Recupera la lista doble de cursos de un estudiante.
+* `POST /api/ordenar`: Aplica algoritmos de ordenamiento a la lista doble.
+
+## 👤 Autor
+* **Jose Milian** - Carnet: 2527304
