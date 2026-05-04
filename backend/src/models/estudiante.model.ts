@@ -1,4 +1,4 @@
-import { HistorialInscripcionesDLL } from '../services/historial-inscripciones.service';
+import { HistorialInscripcionesDLL } from '../services/HistorialInscripcionesDLL';
 
 /**
  * Modelo Estudiante - Fase 1
@@ -13,8 +13,7 @@ export class Estudiante {
 
     /**
      * Historial de Inscripciones:
-     * Se implementa como una Lista Doblemente Enlazada (DLL) 
-     * cumpliendo con los requisitos de la Fase 1 del proyecto.
+     * Se implementa como una Lista Doblemente Enlazada (DLL).
      */
     historial: HistorialInscripcionesDLL;
 
@@ -24,7 +23,7 @@ export class Estudiante {
         this.apellidos = apellidos;
         this.correo = correo;
 
-        // Inicializa un historial vacío para cada estudiante al ser creado
+        // Inicializamos una nueva lista vacía para cada estudiante
         this.historial = new HistorialInscripcionesDLL();
     }
 }

@@ -1,34 +1,33 @@
 import { Request, Response } from 'express';
-import { EstudianteService } from '../services/estudiante.service';
-import { Estudiante } from '../models/estudiante.model';
+import { EstudiantesLinkedList } from '../services/EstudiantesLinkedList';
+import { historialService } from '../services/historial-inscripciones.service';
 
-const estudianteService = new EstudianteService();
+const listaEstudiantes = new EstudiantesLinkedList();
 
-export const crearEstudiante = (req: Request, res: Response) => {
-    try {
-        const { carnet, nombre, apellido, fechaNacimiento, correo } = req.body;
-        if (!carnet || !nombre) return res.status(400).json({ message: 'Campos faltantes' });
+export const estudianteController = {
+    listarTodos: (req: Request, res: Response) => {
+        res.status(200).json(listaEstudiantes.listarTodos());
+    },
 
-        const nuevo: Estudiante = { carnet, nombre, apellido, fechaNacimiento, correo };
-        estudianteService.insertarEstudiante(nuevo);
-        res.status(201).json({ message: 'Guardado', data: nuevo });
-    } catch (error) {
-        res.status(500).json({ message: 'Error' });
+    crear: (req: Request, res: Response) => {
+        const nuevoEstudiante = req.body;
+        listaEstudiantes.insertarAlFinal(nuevoEstudiante);
+        res.status(201).json({ mensaje: "Estudiante creado" });
+    },
+
+    invertirLista: (req: Request, res: Response) => {
+        listaEstudiantes.invertir();
+        res.status(200).json({
+            mensaje: "Lista invertida",
+            data: listaEstudiantes.listarTodos()
+        });
+    },
+
+    eliminar: (req: Request, res: Response) => {
+        const { carnet } = req.params;
+        const exito = listaEstudiantes.eliminarPorCarnet(carnet);
+        if (exito) res.status(200).json({ mensaje: "Eliminado" });
+        else res.status(404).json({ mensaje: "No encontrado" });
     }
-};
-
-export const listarEstudiantes = (req: Request, res: Response) => {
-    res.json(estudianteService.obtenerEstudiantes());
-};
-
-export const invertirListaEstudiantes = (req: Request, res: Response) => {
-    estudianteService.invertirLista();
-    res.json({ message: 'Invertida' });
-};
-
-export const buscarEstudiante = (req: Request, res: Response) => {
-    // Solución al error de tu imagen: forzar String
-    const carnetStr = String(req.params.carnet);
-    const est = estudianteService.buscarPorCarnet(carnetStr);
-    est ? res.json(est) : res.status(404).json({ message: 'No encontrado' });
+    // ... otros métodos (actualizar, historial, etc.)
 };

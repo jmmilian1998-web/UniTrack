@@ -1,0 +1,49 @@
+<div class="container">
+    <h2>🎓 UniTrack - Gestión Académica</h2>
+
+    <div class="form-card">
+        <h3>Registrar Nuevo Estudiante</h3>
+        <div class="input-group">
+            <input type="text" [(ngModel)]="nuevoEstudiante.carnet" placeholder="Carnet">
+            <input type="text" [(ngModel)]="nuevoEstudiante.nombres" placeholder="Nombres">
+            <input type="text" [(ngModel)]="nuevoEstudiante.apellidos" placeholder="Apellidos">
+            <input type="email" [(ngModel)]="nuevoEstudiante.correo" placeholder="Correo">
+            <button (click)="registrar()">Agregar Estudiante</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Visualización: Lista Simple Enlazada</h3>
+        <button class="btn-action" (click)="invertir()">Invertir Lista</button>
+
+        <div class="nodos-container">
+            <div *ngFor="let est of estudiantes" class="nodo-wrapper" style="display: flex; align-items: center;">
+                <div class="nodo-simple" (click)="verHistorial(est.carnet)">
+                    <strong>{{est.carnet}}</strong><br>
+                    <small>{{est.nombres}} {{est.apellidos}}</small>
+                </div>
+                <div class="flecha">→</div>
+            </div>
+            <div class="flecha" style="color: #FF9800; font-weight: bold;">NULL</div>
+        </div>
+    </div>
+
+    <div class="section" *ngIf="carnetSeleccionado">
+        <h3>Historial de: {{carnetSeleccionado}} (Lista Doble)</h3>
+        <button class="btn-action" (click)="ordenarHistorial()">Ordenar por Nota</button>
+
+        <div class="dll-container" style="display: flex; align-items: center; gap: 10px;">
+            <div class="flecha-doble" style="color: #00E5FF; font-weight: bold;">NULL ↔</div>
+
+            <div *ngFor="let item of historial" class="nodo-wrapper" style="display: flex; align-items: center;">
+                <div class="nodo-doble">
+                    <div style="font-size: 0.9em; text-transform: uppercase;">{{item.curso}}</div>
+                    <div style="color: #1b5e20; font-weight: bold;">Nota: {{item.nota}}</div>
+                </div>
+                <div class="flecha-doble" style="color: #00E5FF; font-weight: bold;">↔</div>
+            </div>
+
+            <div class="flecha-doble" style="color: #00E5FF; font-weight: bold;">NULL</div>
+        </div>
+    </div>
+</div>

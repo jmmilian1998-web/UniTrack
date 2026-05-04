@@ -1,0 +1,230 @@
+/* --- Variables de Color y Base --- */
+:root {
+    --bg-dark: #121212;
+    --card-bg: #1e1e1e;
+    --primary-cian: #00e5ff;
+    /* Color para Lista Simple */
+    --secondary-yellow: #ffc107;
+    /* Color para Lista Doble */
+    --text-white: #e0e0e0;
+    --success-green: #4caf50;
+    --danger-red: #f44336;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: linear-gradient(90deg, #1a237e, #0d47a1);
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* --- Tarjetas (Cards) --- */
+.card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+h2,
+h3 {
+    color: var(--primary-cian);
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+/* --- Formularios --- */
+.form-group {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #444;
+    background: #2a2a2a;
+    color: white;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+button {
+    cursor: pointer;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background-color: var(--primary-cian);
+    color: #000;
+}
+
+.btn-secondary {
+    background-color: #555;
+    color: white;
+}
+
+.btn-success {
+    background-color: var(--success-green);
+    color: white;
+    width: 100%;
+    margin-top: 10px;
+}
+
+button:hover {
+    opacity: 0.8;
+    transform: translateY(-2px);
+}
+
+/* --- Visualización de Estructuras (Nodos) --- */
+.nodos-display {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 20px;
+    background: #141414;
+    border-radius: 8px;
+    min-height: 100px;
+}
+
+/* Contenedor del nodo + botón eliminar */
+.nodo-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.nodo {
+    background: #263238;
+    border: 2px solid var(--primary-cian);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 120px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.nodo:hover {
+    border-color: white;
+    background: #37474f;
+}
+
+/* Botón pequeño para eliminar sobre el nodo */
+.btn-delete-small {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--danger-red);
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    padding: 0;
+    border: 2px solid var(--card-bg);
+    z-index: 10;
+}
+
+.flecha {
+    font-size: 24px;
+    color: var(--primary-cian);
+    font-weight: bold;
+}
+
+/* --- Lista Doblemente Enlazada (Modal) --- */
+.dll-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px;
+}
+
+.dll-node {
+    background: #3e2723;
+    border: 2px solid var(--secondary-yellow);
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+    min-width: 100px;
+}
+
+.double-arrow {
+    font-size: 24px;
+    color: var(--secondary-yellow);
+    font-weight: bold;
+}
+
+/* --- Modal Estilos --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    margin: 5% auto;
+    padding: 30px;
+    border: 1px solid var(--primary-cian);
+    width: 80%;
+    max-width: 750px;
+    border-radius: 15px;
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: white;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #444;
+    margin: 20px 0;
+}

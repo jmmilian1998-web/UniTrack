@@ -1,24 +1,29 @@
 import express from 'express';
 import cors from 'cors';
-import estudianteRoutes from './routes/estudiante.routes';
+
+// Importamos las rutas. 
+// Nota: Si el archivo es .js, asegúrate de que la ruta sea exacta.
+const estudianteRoutes = require('./routes/estudianteRoutes');
 
 const app = express();
-const PORT = 3000;
 
-// Middleware para permitir que el frontend se comunique con el backend
+// --- Middlewares ---
+// Permite la comunicación con el frontend (Angular/HTML)
 app.use(cors());
-// Middleware para entender el formato JSON que enviamos desde el navegador
+
+// Permite recibir datos en formato JSON en los formularios
 app.use(express.json());
 
-// CONFIGURACIÓN DE RUTAS
-// Todas las rutas de estudiantes empezarán con /api/estudiantes
+// --- Rutas ---
+// Definimos el prefijo /api/estudiantes para todas las operaciones
 app.use('/api/estudiantes', estudianteRoutes);
 
-// Ruta de prueba inicial
-app.get('/', (req, res) => {
-    res.send('Servidor de UniTrack funcionando con Lista Enlazada Simple');
-});
+// --- Configuración del Servidor ---
+const PORT = 3000;
 
 app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    console.log('==============================================');
+    console.log(`  Servidor UniTrack corriendo con éxito`);
+    console.log(`  URL: http://localhost:${PORT}`);
+    console.log('==============================================');
 });

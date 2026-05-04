@@ -1,71 +1,51 @@
-import { NodoInscripcion } from '../models/inscripcion.model';
+import { HistorialInscripcionesDLL } from './HistorialInscripcionesDLL';
 
-export class HistorialInscripcionesDLL {
-    cabeza: NodoInscripcion | null = null;
-    cola: NodoInscripcion | null = null;
+export class HistorialInscripcionesService {
+    // Mapa para gestionar un historial independiente por cada carnet de estudiante
+    private historiales: Map<string, HistorialInscripcionesDLL>;
 
-    // Insertar al final (el estándar para un historial)
-    insertarAlFinal(codigo: string, nombre: string, semestre: number, nota: number) {
-        const nuevo = new NodoInscripcion(codigo, nombre, semestre, nota);
-        if (!this.cabeza) {
-            this.cabeza = nuevo;
-            this.cola = nuevo;
-        } else {
-            if (this.cola) {
-                this.cola.siguiente = nuevo;
-                nuevo.anterior = this.cola;
-                this.cola = nuevo;
-            }
-        }
+    constructor() {
+        this.historiales = new Map<string, HistorialInscripcionesDLL>();
     }
 
-    // Recorrer hacia atrás (Requisito obligatorio)
-    recorrerAtras() {
-        let actual = this.cola;
-        const resultado = [];
-        while (actual) {
-            resultado.push(actual);
-            actual = actual.anterior;
+    /**
+     * Obtiene la lista doble del estudiante o crea una nueva si no existe.
+     */
+    private obtenerHistorial(carnet: string): HistorialInscripcionesDLL {
+        if (!this.historiales.has(carnet)) {
+            this.historiales.set(carnet, new HistorialInscripcionesDLL());
         }
-        return resultado;
+        return this.historiales.get(carnet)!;
     }
 
-    // Eliminar por código (Requisito obligatorio)
-    eliminarPorCodigo(codigo: string) {
-        let actual = this.cabeza;
-        while (actual) {
-            if (actual.codigoCurso === codigo) {
-                if (actual.anterior) actual.anterior.siguiente = actual.siguiente;
-                if (actual.siguiente) actual.siguiente.anterior = actual.anterior;
-                if (actual === this.cabeza) this.cabeza = actual.siguiente;
-                if (actual === this.cola) this.cola = actual.anterior;
-                return true;
-            }
-            actual = actual.siguiente;
-        }
-        return false;
+    // 1. Agregar una nueva inscripción (Nodo) al final de la lista doble
+    agregarInscripcion(carnet: string, datosInscripcion: any) {
+        const historial = this.obtenerHistorial(carnet);
+        historial.insertarAlFinal(datosInscripcion);
+        return { success: true, mensaje: "Inscripción agregada al historial correctamente." };
     }
 
-    // Ordenamiento Bubble Sort (Requisito para puntos extra)
-    ordenarPorNota() {
-        if (!this.cabeza) return;
-        let intercambiado;
-        do {
-            intercambiado = false;
-            let actual = this.cabeza;
-            while (actual && actual.siguiente) {
-                if (actual.nota < actual.siguiente.nota) {
-                    // Intercambiamos solo los datos, no los punteros para simplificar
-                    let tempNota = actual.nota;
-                    let tempCod = actual.codigoCurso;
-                    actual.nota = actual.siguiente.nota;
-                    actual.codigoCurso = actual.siguiente.codigoCurso;
-                    actual.siguiente.nota = tempNota;
-                    actual.siguiente.codigoCurso = tempCod;
-                    intercambiado = true;
-                }
-                actual = actual.siguiente;
-            }
-        } while (intercambiado);
+    // 2. Eliminar una inscripción específica buscando por el código del curso
+    eliminarInscripcion(carnet: string, codigoCurso: string): boolean {
+        const historial = this.historiales.get(carnet);
+        if (!historial) return false;
+        return historial.eliminarPorCodigo(codigoCurso);
+    }
+
+    // 3. Retornar el historial ordenado (por semestre, por ejemplo)
+    ordenarHistorialPorSemestre(carnet: string) {
+        const historial = this.historiales.get(carnet);
+        if (!historial) return null;
+        return historial.obtenerOrdenadoPorSemestre();
+    }
+
+    // 4. Listar todas las inscripciones del estudiante
+    obtenerHistorialCompleto(carnet: string) {
+        const historial = this.historiales.get(carnet);
+        if (!historial) return [];
+        return historial.listarTodo();
     }
 }
+
+// IMPORTANTE: Exportamos la instancia para que el controlador la reconozca
+export const historialService = new HistorialInscripcionesService();

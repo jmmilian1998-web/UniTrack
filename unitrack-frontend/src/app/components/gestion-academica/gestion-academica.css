@@ -1,0 +1,117 @@
+/* Contenedor Principal */
+.container {
+    padding: 30px;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h2 {
+    color: #ffffff;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+/* Tarjeta de Registro */
+.form-card {
+    background: #1e1e1e;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 40px;
+    border-left: 5px solid #4CAF50;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.form-card input {
+    padding: 12px;
+    margin: 8px;
+    background: #2d2d2d;
+    border: 1px solid #444;
+    color: white;
+    border-radius: 6px;
+    width: calc(23% - 20px);
+    min-width: 160px;
+}
+
+/* Lista Simple (Estudiantes) */
+.nodos-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.nodo-simple {
+    background: linear-gradient(135deg, #2196F3, #1565C0);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 150px;
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.nodo-simple:hover {
+    transform: translateY(-5px);
+}
+
+/* Lista Doble (Historial) */
+.dll-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 10px;
+}
+
+.nodo-doble {
+    background: linear-gradient(135deg, #00b09b, #96c93d);
+    color: #121212;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    min-width: 130px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Flechas y Conectores */
+.flecha {
+    font-size: 28px;
+    color: #FF9800;
+    font-weight: bold;
+}
+
+.flecha-doble {
+    font-size: 24px;
+    color: #00E5FF;
+    font-weight: bold;
+}
+
+/* Botones */
+button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-action {
+    background: #673AB7;
+    margin-bottom: 15px;
+}
+
+button:hover {
+    filter: brightness(1.2);
+}

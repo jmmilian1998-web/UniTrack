@@ -1,16 +1,32 @@
-import express from 'express';
+import express, { Application } from 'express';
 import cors from 'cors';
 import estudianteRoutes from './routes/estudiante.routes';
 
-const app = express();
+class App {
+    public app: Application;
 
-// 1. Esto permite que el HTML se conecte al servidor
-app.use(cors());
+    constructor() {
+        this.app = express();
+        this.config();
+        this.routes();
+    }
 
-// 2. Esto permite que el servidor entienda el JSON que envías
-app.use(express.json());
+    private config(): void {
+        // Habilita CORS para que el frontend (puerto 5500 u otro) pueda comunicarse con el backend
+        this.app.use(cors());
 
-// 3. Tus rutas
-app.use('/api/estudiantes', estudianteRoutes);
+        // Permite que el servidor entienda archivos JSON en el cuerpo de las peticiones
+        this.app.use(express.json());
 
-export default app;
+        // Permite procesar datos de formularios si fuera necesario
+        this.app.use(express.urlencoded({ extended: false }));
+    }
+
+    private routes(): void {
+        // Prefijo para todas las rutas de estudiantes
+        // Esto significa que tus endpoints serán: http://localhost:3000/api/estudiantes
+        this.app.use('/api/estudiantes', estudianteRoutes);
+    }
+}
+
+export default new App().app;

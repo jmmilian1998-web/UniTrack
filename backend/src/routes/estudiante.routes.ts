@@ -1,28 +1,13 @@
 import { Router } from 'express';
-import {
-    crearEstudiante,
-    listarEstudiantes,
-    invertirListaEstudiantes,
-    buscarEstudiante
-} from '../controllers/estudiante.controller';
+import { estudianteController } from '../controllers/estudiante.controller';
 
 const router = Router();
 
-/**
- * DEFINICIÓN DE ENDPOINTS (Requerimiento 4.1)
- * Aquí asociamos cada URL con su respectiva lógica en el controlador.
- */
+router.get('/', estudianteController.listarTodos);
+router.post('/', estudianteController.crear);
+router.delete('/:carnet', estudianteController.eliminar);
 
-// POST: http://localhost:3000/api/estudiantes (Para guardar uno nuevo)
-router.post('/', crearEstudiante);
-
-// GET: http://localhost:3000/api/estudiantes (Para ver toda la lista)
-router.get('/', listarEstudiantes);
-
-// POST: http://localhost:3000/api/estudiantes/invertir (Para dar vuelta a la lista)
-router.post('/invertir', invertirListaEstudiantes);
-
-// GET: http://localhost:3000/api/estudiantes/:carnet (Para buscar uno específico)
-router.get('/:carnet', buscarEstudiante);
+// RUTA CRUCIAL PARA EL BOTÓN
+router.post('/invertir', estudianteController.invertirLista);
 
 export default router;

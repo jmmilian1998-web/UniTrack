@@ -4,205 +4,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniTrack - Gestión de Estudiantes</title>
-    <!-- Enlazamos el CSS que ya creaste -->
+    <title>UniTrack - Gestión Académica</title>
     <link rel="stylesheet" href="css/styles.css">
-    <style>
-        /* Estilo rápido por si el archivo CSS no carga */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1a1a1a;
-            color: white;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: auto;
-            background: #2d2d2d;
-            padding: 30px;
-            border-radius: 12px;
-            shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border-radius: 5px;
-            border: 1px solid #444;
-            background: #3d3d3d;
-            color: white;
-            box-sizing: border-box;
-        }
-
-        button {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 10px;
-            transition: 0.3s;
-        }
-
-        .btn-save {
-            background-color: #27ae60;
-            color: white;
-        }
-
-        .btn-update {
-            background-color: #2980b9;
-            color: white;
-        }
-
-        .btn-invert {
-            background-color: #e67e22;
-            color: white;
-        }
-
-        button:hover {
-            opacity: 0.8;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 25px;
-            background: #333;
-        }
-
-        th,
-        td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #444;
-        }
-
-        th {
-            background-color: #444;
-            color: #3498db;
-        }
-
-        tr:hover {
-            background-color: #3d3d3d;
-        }
-    </style>
 </head>
 
 <body>
+    <header>
+        <h1>UniTrack - Sistema de Estructuras de Datos</h1>
+        <p>Universidad Regional de Guatemala</p>
+    </header>
 
-    <div class="container">
-        <h1>🚀 UniTrack: Control de Estudiantes</h1>
-        <p>Estructura de Datos - Lista Enlazada Simple</p>
+    <main class="container">
+        <!-- Sección de Registro de Estudiantes -->
+        <section class="card">
+            <h2>Registrar Estudiante (Lista Enlazada Simple)</h2>
+            <form id="formEstudiante" onsubmit="registrarEstudiante(event)">
+                <div class="form-group">
+                    <input type="text" id="carnet" placeholder="Carnet (Ej: 2024001)" required>
+                    <input type="text" id="nombres" placeholder="Nombres" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="apellidos" placeholder="Apellidos" required>
+                    <input type="email" id="correo" placeholder="Correo Electrónico" required>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="btn-primary">Registrar al Final</button>
+                    <button type="button" class="btn-secondary" onclick="invertirLista()">Invertir Lista
+                        (In-Place)</button>
+                </div>
+            </form>
+        </section>
 
-        <!-- Formulario de Registro -->
-        <div class="card">
-            <h3>Registrar Nuevo Estudiante</h3>
-            <div class="form-group">
-                <input type="text" id="carnet" placeholder="Número de Carnet (ej. 2024001)">
+        <!-- Visualización de la Lista Enlazada Simple -->
+        <section class="card">
+            <h2>Visualización de Estudiantes</h2>
+            <div id="listaEstudiantes" class="nodos-display">
+                <!-- Se renderiza vía api.js con flechas → -->
             </div>
-            <div class="form-group">
-                <input type="text" id="nombre" placeholder="Nombres">
+        </section>
+    </main>
+
+    <!-- Modal para Historial (Lista Doblemente Enlazada) -->
+    <div id="modalHistorial" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+
+            <div class="modal-header-actions">
+                <h2>Historial de Inscripciones (DLL)</h2>
+                <!-- NUEVO: Botón para ordenar la Lista Doble -->
+                <button type="button" class="btn-secondary" onclick="ordenarHistorial()" style="margin-bottom: 15px;">
+                    排序 Ordenar por Semestre
+                </button>
             </div>
-            <div class="form-group">
-                <input type="text" id="apellido" placeholder="Apellidos">
+
+            <div id="contenidoHistorial">
+                <!-- Se renderiza vía api.js con flechas ↔ -->
             </div>
-            <div class="form-group">
-                <input type="email" id="correo" placeholder="Correo Electrónico">
-            </div>
-            <button class="btn-save" onclick="registrar()">Guardar Estudiante</button>
+
+            <hr>
+
+            <h3>Inscribir Nuevo Curso</h3>
+            <form id="formInscripcion" onsubmit="agregarInscripcion(event)">
+                <!-- Campo oculto para saber a qué estudiante pertenece el curso -->
+                <input type="hidden" id="carnetHistorial">
+
+                <div class="form-group">
+                    <input type="text" id="codigoCurso" placeholder="Código (Ej: 001)" required>
+                    <input type="text" id="nombreCurso" placeholder="Nombre del Curso" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" id="semestre" placeholder="Semestre" required>
+                    <input type="number" id="nota" placeholder="Nota" required>
+                </div>
+                <button type="submit" class="btn-success">Guardar en Historial (DLL)</button>
+            </form>
         </div>
-
-        <hr style="margin: 30px 0; border: 0; border-top: 1px solid #444;">
-
-        <!-- Acciones de la Lista -->
-        <div class="actions">
-            <button class="btn-update" onclick="renderTabla()">🔄 Actualizar Tabla</button>
-            <button class="btn-invert" onclick="aplicarInversion()">🔄 Invertir Lista (Punteros)</button>
-        </div>
-
-        <!-- Tabla de Datos -->
-        <table>
-            <thead>
-                <tr>
-                    <th>Carnet</th>
-                    <th>Nombre Completo</th>
-                    <th>Correo</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-estudiantes">
-                <!-- Los nodos de la lista se verán aquí -->
-            </tbody>
-        </table>
     </div>
 
-    <!-- Importamos la lógica de la API -->
     <script src="js/api.js"></script>
     <script>
-        // Función para cargar y mostrar los datos
-        async function renderTabla() {
-            const tabla = document.getElementById('tabla-estudiantes');
-            tabla.innerHTML = '<tr><td colspan="3">Cargando datos...</td></tr>';
+        // Funciones de control de interfaz
+        function cerrarModal() {
+            document.getElementById('modalHistorial').style.display = 'none';
+        }
 
-            try {
-                const estudiantes = await obtenerEstudiantes();
-                tabla.innerHTML = '';
-
-                if (estudiantes.length === 0) {
-                    tabla.innerHTML = '<tr><td colspan="3">La lista está vacía.</td></tr>';
-                    return;
-                }
-
-                estudiantes.forEach(est => {
-                    tabla.innerHTML += `
-                        <tr>
-                            <td><strong>${est.carnet}</strong></td>
-                            <td>${est.nombre} ${est.apellido}</td>
-                            <td>${est.correo}</td>
-                        </tr>`;
-                });
-            } catch (error) {
-                tabla.innerHTML = '<tr><td colspan="3" style="color: #e74c3c;">Error al conectar con el servidor.</td></tr>';
+        // Cerrar modal si se hace clic fuera de la caja blanca
+        window.onclick = function (event) {
+            const modal = document.getElementById('modalHistorial');
+            if (event.target == modal) {
+                cerrarModal();
             }
         }
-
-        // Función para enviar datos al backend
-        async function registrar() {
-            const carnet = document.getElementById('carnet').value;
-            const nombre = document.getElementById('nombre').value;
-            const apellido = document.getElementById('apellido').value;
-            const correo = document.getElementById('correo').value;
-
-            if (!carnet || !nombre) {
-                alert("Por favor llena los campos obligatorios");
-                return;
-            }
-
-            const data = { carnet, nombre, apellido, correo };
-            await guardarEstudiante(data);
-
-            // Limpiar campos
-            document.getElementById('carnet').value = '';
-            document.getElementById('nombre').value = '';
-            document.getElementById('apellido').value = '';
-            document.getElementById('correo').value = '';
-
-            renderTabla();
-        }
-
-        // Función para llamar a la inversión de la lista
-        async function aplicarInversion() {
-            await invertirLista();
-            renderTabla();
-        }
-
-        // Cargar datos automáticamente al abrir la página
-        window.onload = renderTabla;
     </script>
 </body>
 
